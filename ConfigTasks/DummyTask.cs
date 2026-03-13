@@ -5,8 +5,10 @@ namespace ConsolifyCLI.ConfigTasks
     // just for testing purposes, will nuke this class later :)
     public class DummyTask : IInstallOption
     {
-        public int Id => 1;
+        public int Id => 0;
         public string Name => "Test Option!";
+        public string Category => "Configuration";
+
         public bool IsSelected { get; set; } = false; 
 
         public async Task ExecuteAsync()
@@ -14,6 +16,13 @@ namespace ConsolifyCLI.ConfigTasks
             Console.WriteLine($"Executing: {Name}...");
             await Task.Delay(1000);
             Console.WriteLine($"[Success] {Name} completed.");
+        }
+
+        public async Task RevertAsync()
+        {
+            Console.WriteLine($"Reverting: {Name}...");
+            await Task.Delay(1000);
+            Console.WriteLine($"[Success] {Name} reverted.");
         }
     }
 }

@@ -16,10 +16,14 @@ namespace ConsolifyCLI.UI
 
         private const string Description = @"
 =============================================================================================
-                     Tools to make your PC a more console-like experience.                   
+                    Tools to make your PC a more console-like experience.                    
 =============================================================================================";
 
         private readonly List<IInstallOption> _options;
+
+        public bool IsUninstallMode { get; private set; } = false;
+
+        public ConsoleColor ModeColor => IsUninstallMode ? ConsoleColor.Red : ConsoleColor.Green;
 
         public InstallerUI(List<IInstallOption> options)
         {
@@ -32,28 +36,49 @@ namespace ConsolifyCLI.UI
 
             while (!isConfirming)
             {
-                Console.Clear();
+                ConsoleHelper.Clear();
+                ConsoleHelper.WriteLine(Logo, ConsoleColor.DarkCyan);
+                ConsoleHelper.WriteLine(Description, ModeColor);
 
-                Console.ForegroundColor = ConsoleColor.DarkCyan;
-                Console.WriteLine(Logo);
-                Console.ForegroundColor = ConsoleColor.Green;
-                Console.WriteLine(Description);
-                Console.WriteLine();
-                Console.ResetColor();
+                ConsoleHelper.WriteLine();
+                string modeText = IsUninstallMode ? "[ CURRENT MODE: UNINSTALL ]" : "[ CURRENT MODE: INSTALL ]";
+                ConsoleHelper.WriteLine(modeText.PadLeft(46 + (modeText.Length / 2)), ModeColor);
+                ConsoleHelper.WriteLine();
 
-                Console.WriteLine("Press a number to toggle an option.");
-                Console.WriteLine("Press ENTER to apply selected changes.");
-                Console.WriteLine("Press ESC to exit.\n");
+                ConsoleHelper.WriteLine("Controls:");
+                ConsoleHelper.WriteLine("1-9:   Toggle option on/off");
+                ConsoleHelper.WriteLine("ENTER: Apply selected changes");
+                ConsoleHelper.WriteLine("ESC:   Exit without applying");
+                ConsoleHelper.WriteLine("I:     Switch to INSTALL mode");
+                ConsoleHelper.WriteLine("u:     Switch to UNINSTALL mode");
+                ConsoleHelper.WriteLine();
 
                 foreach (var option in _options)
                 {
                     string checkmark = option.IsSelected ? "[X]" : "[ ]";
-                    Console.WriteLine($"{option.Id}. {checkmark} {option.Name}");
+
+                    if (option.IsSelected)
+                    {
+                        ConsoleHelper.WriteLine($"{option.Id}. {checkmark} {option.Name}", ModeColor);
+                    }
+                    else
+                    {
+                        ConsoleHelper.WriteLine($"{option.Id}. {checkmark} {option.Name}");
+                    }
                 }
 
                 var keyInfo = Console.ReadKey(true);
+                char upperKey = char.ToUpper(keyInfo.KeyChar);
 
-                if (keyInfo.Key == ConsoleKey.Escape)
+                if (upperKey == 'I')
+                {
+                    IsUninstallMode = false;
+                }
+                else if (upperKey == 'U')
+                {
+                    IsUninstallMode = true;
+                }
+                else if (keyInfo.Key == ConsoleKey.Escape)
                 {
                     Environment.Exit(0);
                 }
@@ -64,8 +89,8 @@ namespace ConsolifyCLI.UI
                 else if (char.IsDigit(keyInfo.KeyChar))
                 {
                     int pressedNumber = int.Parse(keyInfo.KeyChar.ToString());
-
                     var selectedOption = _options.FirstOrDefault(o => o.Id == pressedNumber);
+
                     if (selectedOption != null)
                     {
                         selectedOption.IsSelected = !selectedOption.IsSelected;

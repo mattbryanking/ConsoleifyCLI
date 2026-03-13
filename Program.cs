@@ -1,6 +1,6 @@
-﻿using ConsolifyCLI.Core;
+﻿using ConsolifyCLI.ConfigTasks;
+using ConsolifyCLI.Core;
 using ConsolifyCLI.UI;
-using ConsolifyCLI.ConfigTasks;
 
 namespace ConsolifyCLI
 {
@@ -11,19 +11,20 @@ namespace ConsolifyCLI
             var availableOptions = new List<IInstallOption>
             {
                 new DummyTask(),
+                new SteamStartupTask(),
             };
 
-            var renderer = new InstallerUI(availableOptions);
-            renderer.ShowMenu();
+            var installer = new InstallerUI(availableOptions);
+            installer.ShowMenu();
 
-            Console.Clear();
-            Console.WriteLine("Starting Consolify Process...\n");
+            ConsoleHelper.Clear();
+            ConsoleHelper.WriteLine("Starting Consolify Process...\n");
 
             var selectedOptions = availableOptions.Where(o => o.IsSelected).ToList();
 
             if (!selectedOptions.Any())
             {
-                Console.WriteLine("No options were selected. Exiting...");
+                ConsoleHelper.WriteLine("No options were selected. Exiting...");
                 return;
             }
 
@@ -31,15 +32,24 @@ namespace ConsolifyCLI
             {
                 try
                 {
-                    await option.ExecuteAsync();
+                    if (installer.IsUninstallMode)
+                    {
+                        ConsoleHelper.Info($"Reverting: {option.Name}...");
+                        await option.RevertAsync();
+                    }
+                    else
+                    {
+                        ConsoleHelper.Info($"Configuring: {option.Name}...");
+                        await option.ExecuteAsync();
+                    }
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine($"[Error] Failed to execute '{option.Name}': {ex.Message}");
+                    ConsoleHelper.Error($"Failed to execute '{option.Name}': {ex.Message}");
                 }
             }
 
-            Console.WriteLine("\nAll selected tasks finished. Press any key to exit.");
+            ConsoleHelper.WriteLine("\nAll selected tasks finished. Press any key to exit.");
             Console.ReadKey();
         }
     }

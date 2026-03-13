@@ -4,8 +4,10 @@
     {
         int Id { get; }
         string Name { get; }
+        string Category { get; }
         bool IsSelected { get; set; }
 
         Task ExecuteAsync();
+        Task RevertAsync();
     }
 }
