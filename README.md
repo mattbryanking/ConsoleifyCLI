@@ -22,8 +22,8 @@ ConsoleifyCLI is a Windows configuration utility that transforms a standard PC i
 * **Taskbar Suppression:** Forces the Windows taskbar into auto-hide mode to remove UI distractions.
 
 ### Hardware Orchestration
-* **TV CEC Control:** Utilizes ADB (Android Debug Bridge) to automatically power on Google TVs and switch inputs upon controller input, mimicking the CEC functionality found in modern consoles.
-* **Audio Device Switcher:** Provides a one-click audio switcher for the system tray, allowing for instant output redirection between home theater speakers and gaming headsets.
+* **TV CEC Control [Coming Soon]:** Utilizes ADB (Android Debug Bridge) to automatically power on Google TVs and switch inputs upon controller input, mimicking the CEC functionality found in modern consoles.
+* **Audio Device Switcher [Coming Soon]:** Provides a one-click audio switcher for the system tray, allowing for instant output redirection between home theater speakers and gaming headsets.
 
 ---
 
