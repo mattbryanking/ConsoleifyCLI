@@ -4,27 +4,27 @@ namespace ConsoleifyCLI.UI
 {
     public class InstallerUI
     {
-        private const string Logo = @"
- ▄████████  ▄██████▄  ███▄▄▄▄      ▄████████  ▄██████▄   ▄█          ▄████████  ▄█     ▄████████ ▄██   ▄   
-███    ███ ███    ███ ███▀▀▀██▄   ███    ███ ███    ███ ███         ███    ███ ███    ███    ███ ███   ██▄ 
-███    █▀  ███    ███ ███   ███   ███    █▀  ███    ███ ███         ███    █▀  ███▌   ███    █▀  ███▄▄▄███ 
-███        ███    ███ ███   ███   ███        ███    ███ ███        ▄███▄▄▄     ███▌  ▄███▄▄▄     ▀▀▀▀▀▀███ 
-███        ███    ███ ███   ███ ▀███████████ ███    ███ ███       ▀▀███▀▀▀     ███▌ ▀▀███▀▀▀     ▄██   ███ 
-███    █▄  ███    ███ ███   ███          ███ ███    ███ ███         ███    █▄  ███    ███        ███   ███ 
-███    ███ ███    ███ ███   ███    ▄█    ███ ███    ███ ███▌    ▄   ███    ███ ███    ███        ███   ███ 
-████████▀   ▀██████▀   ▀█   █▀   ▄████████▀   ▀██████▀  █████▄▄██   ██████████ █▀     ███         ▀█████▀  
+        private const string Logo = 
+            @"▄████████  ▄██████▄  ███▄▄▄▄      ▄████████  ▄██████▄   ▄█        ▄████████  ▄█     ▄████████ ▄██   ▄   
+███    ███ ███    ███ ███▀▀▀██▄   ███    ███ ███    ███ ███       ███    ███ ███    ███    ███ ███   ██▄ 
+███    █▀  ███    ███ ███   ███   ███    █▀  ███    ███ ███       ███    █▀  ███▌   ███    █▀  ███▄▄▄███ 
+███        ███    ███ ███   ███   ███        ███    ███ ███      ▄███▄▄▄     ███▌  ▄███▄▄▄     ▀▀▀▀▀▀███ 
+███        ███    ███ ███   ███ ▀███████████ ███    ███ ███     ▀▀███▀▀▀     ███▌ ▀▀███▀▀▀     ▄██   ███ 
+███    █▄  ███    ███ ███   ███          ███ ███    ███ ███       ███    █▄  ███    ███        ███   ███ 
+███    ███ ███    ███ ███   ███    ▄█    ███ ███    ███ ███▌    ▄ ███    ███ ███    ███        ███   ███ 
+████████▀   ▀██████▀   ▀█   █▀   ▄████████▀   ▀██████▀  █████▄▄██ ██████████ █▀     ███         ▀█████▀  
                                                         ▀                                                  ";
 
         private const string Description = 
-@"==========================================================================================================
-                           Tools to make your PC a more console-like experience.                    
-==========================================================================================================";
+@"========================================================================================================
+                          Tools to make your PC a more console-like experience.                    
+========================================================================================================";
 
         private readonly List<IInstallOption> _options;
 
-        public bool IsRevertMode { get; private set; } = false;
+        public bool IsUninstallMode { get; private set; } = false;
 
-        public ConsoleColor ModeColor => IsRevertMode ? ConsoleColor.Red : ConsoleColor.Green;
+        public ConsoleColor ModeColor => IsUninstallMode ? ConsoleColor.Red : ConsoleColor.Green;
 
         public InstallerUI(List<IInstallOption> options)
         {
@@ -42,29 +42,37 @@ namespace ConsoleifyCLI.UI
                 ConsoleHelper.WriteLine(Description, ModeColor);
 
                 ConsoleHelper.WriteLine();
-                string modeText = IsRevertMode ? "[ CURRENT MODE: UNINSTALL ]" : "[ CURRENT MODE: INSTALL ]";
-                ConsoleHelper.WriteLine(modeText.PadLeft(54 + (modeText.Length / 2)), ModeColor);
+                string modeText = IsUninstallMode ? "[ CURRENT MODE: UNINSTALL ]" : "[ CURRENT MODE: INSTALL ]";
+                ConsoleHelper.WriteLine(modeText.PadLeft(53 + (modeText.Length / 2)), ModeColor);
                 ConsoleHelper.WriteLine();
 
                 ConsoleHelper.WriteLine("Controls: [1-9] Toggle | [ENTER] Apply | [ESC] Exit | [I] Install Mode | [U] Uninstall Mode");
-                ConsoleHelper.WriteLine();
 
-                foreach (var option in _options)
+                for (int i = 0; i < _options.Count; i++)
                 {
+                    var option = _options[i];
+                    if (i == 0 || option.Category != _options[i - 1].Category)
+                    {
+                        string header = $"{option.Category.ToUpper()}:";
+                        ConsoleHelper.WriteLine();
+                        ConsoleHelper.WriteLine($"{option.Category.ToUpper()}:", ConsoleColor.Yellow);
+                        ConsoleHelper.WriteLine();
+                    }
+
                     string checkmark = option.IsSelected ? "[X]" : "[ ]";
 
-                    if (IsRevertMode && !option.IsRevertSupported)
+                    if (IsUninstallMode && !option.IsUninstallSupported)
                     {
                         option.IsSelected = false;
                         checkmark = "[ ]";
-                        ConsoleHelper.WriteLine($"{option.Id}. {checkmark} {option.Name} [Not Implemented]", ConsoleColor.DarkGray);
+                        ConsoleHelper.WriteLine($"{option.Id}. {checkmark} {option.Name}", ConsoleColor.DarkGray);
                     }
                     else if (option.IsSelected)
                     {
                         if (option.HasWarning)
                         {
                             ConsoleHelper.Write($"{option.Id}. {checkmark} {option.Name}", ModeColor);
-                            ConsoleHelper.WriteLine(" [USE AT OWN RISK!]", ConsoleColor.Yellow);
+                            ConsoleHelper.WriteLine(" [USE AT OWN RISK!]", ConsoleColor.DarkYellow);
                         }
                         else
                         {
@@ -76,7 +84,7 @@ namespace ConsoleifyCLI.UI
                         if (option.HasWarning)
                         {
                             ConsoleHelper.Write($"{option.Id}. {checkmark} {option.Name}");
-                            ConsoleHelper.WriteLine(" [USE AT OWN RISK!]", ConsoleColor.Yellow);
+                            ConsoleHelper.WriteLine(" [USE AT OWN RISK!]", ConsoleColor.DarkYellow);
                         }
                         else
                         {
@@ -85,16 +93,17 @@ namespace ConsoleifyCLI.UI
                     }
                 }
 
+                ConsoleHelper.WriteLine();
                 var keyInfo = Console.ReadKey(true);
                 char upperKey = char.ToUpper(keyInfo.KeyChar);
 
                 if (upperKey == 'I')
                 {
-                    IsRevertMode = false;
+                    IsUninstallMode = false;
                 }
                 else if (upperKey == 'U')
                 {
-                    IsRevertMode = true;
+                    IsUninstallMode = true;
                 }
                 else if (keyInfo.Key == ConsoleKey.Escape)
                 {
@@ -110,7 +119,7 @@ namespace ConsoleifyCLI.UI
                     int pressedNumber = int.Parse(keyInfo.KeyChar.ToString());
                     var selectedOption = _options.FirstOrDefault(o => o.Id == pressedNumber);
 
-                    if (selectedOption != null && (!IsRevertMode || selectedOption.IsRevertSupported))
+                    if (selectedOption != null && (!IsUninstallMode || selectedOption.IsUninstallSupported))
                     {
                         selectedOption.IsSelected = !selectedOption.IsSelected;
                     }

@@ -57,9 +57,11 @@
 
         public static string Prompt(string question)
         {
+            Console.CursorVisible = true;
             Console.ForegroundColor = ConsoleColor.Cyan;
             Console.Write($"    > {question} ");
             Console.ResetColor();
+            Console.CursorVisible = false;
             return Console.ReadLine() ?? string.Empty;
         }
     }

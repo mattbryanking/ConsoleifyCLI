@@ -2,7 +2,7 @@
 using ConsoleifyCLI.UI;
 using Microsoft.Win32;
 
-namespace ConsoleifyCLI.ConfigTasks
+namespace ConsoleifyCLI.Tasks
 {
     public class SteamStartupTask : IInstallOption
     {
@@ -11,7 +11,7 @@ namespace ConsoleifyCLI.ConfigTasks
         public string Category => "Configuration";
         public bool IsSelected { get; set; } = false;
         public bool HasWarning => false;
-        public bool IsRevertSupported => true;
+        public bool IsUninstallSupported => true;
 
         public Task ExecuteAsync()
         {

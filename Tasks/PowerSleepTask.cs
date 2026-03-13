@@ -2,17 +2,17 @@
 using ConsoleifyCLI.Core;
 using ConsoleifyCLI.UI;
 
-namespace ConsoleifyCLI.ConfigTasks
+namespace ConsoleifyCLI.Tasks
 {
     public class PowerSleepTask : IInstallOption
     {
         public int Id => 4;
-        public string Name => "Set physical PC Power Button to Sleep";
+        public string Name => "Set physical PC power button to sleep";
         public string Category => "Configuration";
 
         public bool IsSelected { get; set; } = false;
         public bool HasWarning => false;
-        public bool IsRevertSupported => true;
+        public bool IsUninstallSupported => true;
 
         private const int SLEEP_ACTION = 1;
         private const int SHUTDOWN_ACTION = 3;

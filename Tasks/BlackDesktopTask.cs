@@ -1,18 +1,18 @@
 ﻿using System.Runtime.InteropServices;
 using ConsoleifyCLI.Core;
-using ConsoleifyCLI.UI; // Assuming your ConsoleHelper is here
+using ConsoleifyCLI.UI; 
 using Microsoft.Win32;
 
-namespace ConsoleifyCLI.ConfigTasks
+namespace ConsoleifyCLI.Tasks
 {
     public class BlackDesktopTask : IInstallOption
     {
         public int Id => 3;
-        public string Name => "Set desktop background to solid black";
+        public string Name => "Set desktop background to black";
         public string Category => "Configuration";
         public bool IsSelected { get; set; } = false;
         public bool HasWarning => false;
-        public bool IsRevertSupported => false;
+        public bool IsUninstallSupported => false;
 
         [DllImport("user32.dll", CharSet = CharSet.Auto)]
         private static extern int SystemParametersInfo(int uAction, int uParam, string lpvParam, int fuWinIni);

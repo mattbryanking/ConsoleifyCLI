@@ -1,8 +1,8 @@
 ﻿using ConsoleifyCLI.Core;
+using ConsoleifyCLI.Tasks;
 using ConsoleifyCLI.UI;
-using ConsoleifyCLI.ConfigTasks;
+using ConsoleifyCLI.Utilities;
 using System.Diagnostics;
-using System.Security.Principal;
 
 namespace ConsoleifyCLI
 {
@@ -10,13 +10,15 @@ namespace ConsoleifyCLI
     {
         static async Task Main(string[] args)
         {
+            Console.Title = "Consoleify PC Installer";
+            Console.CursorVisible = false;
             var availableOptions = new List<IInstallOption>
             {
-                new DummyTask(),
                 new SteamStartupTask(),
                 new AutoHideTaskbarTask(),
                 new BlackDesktopTask(),
                 new PowerSleepTask(),
+                new AutoLogonTask()
             };
 
             var installer = new InstallerUI(availableOptions);
@@ -37,7 +39,7 @@ namespace ConsoleifyCLI
             {
                 try
                 {
-                    if (installer.IsRevertMode)
+                    if (installer.IsUninstallMode)
                     {
                         ConsoleHelper.Info($"Reverting: {option.Name}...");
                         await option.RevertAsync();

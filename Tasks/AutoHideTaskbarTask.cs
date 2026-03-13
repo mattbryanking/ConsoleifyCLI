@@ -3,16 +3,16 @@ using ConsoleifyCLI.UI;
 using Microsoft.Win32;
 using System.Diagnostics;
 
-namespace ConsoleifyCLI.ConfigTasks
+namespace ConsoleifyCLI.Tasks
 {
     public class AutoHideTaskbarTask : IInstallOption
     {
         public int Id => 2;
-        public string Name => "Set Taskbar to auto-hide";
+        public string Name => "Set taskbar to auto-hide";
         public string Category => "Configuration";
         public bool IsSelected { get; set; } = false;
         public bool HasWarning => true;
-        public bool IsRevertSupported => true;
+        public bool IsUninstallSupported => true;
 
         // windows taskbar settings binary blob
         private const string RegistryPath = @"Software\Microsoft\Windows\CurrentVersion\Explorer\StuckRects3";

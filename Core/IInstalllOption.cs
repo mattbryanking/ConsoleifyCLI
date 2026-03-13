@@ -7,7 +7,7 @@
         string Category { get; }
         bool IsSelected { get; set; }
         bool HasWarning { get; }
-        bool IsRevertSupported { get; }
+        bool IsUninstallSupported { get; }
 
         Task ExecuteAsync();
         Task RevertAsync();

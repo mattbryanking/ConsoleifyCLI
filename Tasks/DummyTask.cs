@@ -1,7 +1,7 @@
 ﻿using ConsoleifyCLI.Core;
 using ConsoleifyCLI.UI;
 
-namespace ConsoleifyCLI.ConfigTasks
+namespace ConsoleifyCLI.Tasks
 {
     // just for testing purposes, will nuke this class later :)
     public class DummyTask : IInstallOption
@@ -11,7 +11,7 @@ namespace ConsoleifyCLI.ConfigTasks
         public string Category => "Configuration";
         public bool IsSelected { get; set; } = false; 
         public bool HasWarning => false;
-        public bool IsRevertSupported => true;
+        public bool IsUninstallSupported => true;
 
         public async Task ExecuteAsync()
         {
