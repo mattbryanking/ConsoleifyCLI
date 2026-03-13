@@ -51,7 +51,7 @@ namespace ConsoleifyCLI.UI
                 ConsoleHelper.WriteLine("ENTER: Apply selected changes");
                 ConsoleHelper.WriteLine("ESC:   Exit without applying");
                 ConsoleHelper.WriteLine("I:     Switch to INSTALL mode");
-                ConsoleHelper.WriteLine("u:     Switch to UNINSTALL mode");
+                ConsoleHelper.WriteLine("U:     Switch to UNINSTALL mode");
                 ConsoleHelper.WriteLine();
 
                 foreach (var option in _options)
@@ -60,11 +60,27 @@ namespace ConsoleifyCLI.UI
 
                     if (option.IsSelected)
                     {
-                        ConsoleHelper.WriteLine($"{option.Id}. {checkmark} {option.Name}", ModeColor);
+                        if (option.HasWarning)
+                        {
+                            ConsoleHelper.Write($"{option.Id}. {checkmark} {option.Name}", ModeColor);
+                            ConsoleHelper.WriteLine(" [USE AT OWN RISK!]", ConsoleColor.Yellow);
+                        }
+                        else
+                        {
+                            ConsoleHelper.WriteLine($"{option.Id}. {checkmark} {option.Name}", ModeColor);
+                        }
                     }
                     else
                     {
-                        ConsoleHelper.WriteLine($"{option.Id}. {checkmark} {option.Name}");
+                        if (option.HasWarning)
+                        {
+                            ConsoleHelper.Write($"{option.Id}. {checkmark} {option.Name}");
+                            ConsoleHelper.WriteLine(" [USE AT OWN RISK!]", ConsoleColor.Yellow);
+                        }
+                        else
+                        {
+                            ConsoleHelper.WriteLine($"{option.Id}. {checkmark} {option.Name}");
+                        }
                     }
                 }
 
@@ -81,6 +97,7 @@ namespace ConsoleifyCLI.UI
                 }
                 else if (keyInfo.Key == ConsoleKey.Escape)
                 {
+                    ConsoleHelper.Clear();
                     Environment.Exit(0);
                 }
                 else if (keyInfo.Key == ConsoleKey.Enter)

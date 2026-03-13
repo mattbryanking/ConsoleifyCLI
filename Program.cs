@@ -12,6 +12,7 @@ namespace ConsoleifyCLI
             {
                 new DummyTask(),
                 new SteamStartupTask(),
+                new AutoHideTaskbarTask(),
             };
 
             var installer = new InstallerUI(availableOptions);
@@ -35,13 +36,11 @@ namespace ConsoleifyCLI
                     if (installer.IsUninstallMode)
                     {
                         ConsoleHelper.Info($"Reverting: {option.Name}...");
-                        await Task.Delay(new Random().Next(500, 1000)); // make this seem more impressive by taking longer B)
                         await option.RevertAsync();
                     }
                     else
                     {
                         ConsoleHelper.Info($"Configuring: {option.Name}...");
-                        await Task.Delay(new Random().Next(500, 1000)); // make this seem more impressive by taking longer B)
                         await option.ExecuteAsync();
                     }
                 }
@@ -49,6 +48,8 @@ namespace ConsoleifyCLI
                 {
                     ConsoleHelper.Error($"Failed to execute '{option.Name}': {ex.Message}");
                 }
+
+                ConsoleHelper.WriteLine();
             }
 
             ConsoleHelper.WriteLine("\nAll selected tasks finished. Press any key to exit.");

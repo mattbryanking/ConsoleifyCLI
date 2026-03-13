@@ -1,4 +1,5 @@
 ﻿using ConsoleifyCLI.Core;
+using ConsoleifyCLI.UI;
 
 namespace ConsoleifyCLI.ConfigTasks
 {
@@ -8,21 +9,21 @@ namespace ConsoleifyCLI.ConfigTasks
         public int Id => 0;
         public string Name => "Test Option!";
         public string Category => "Configuration";
-
         public bool IsSelected { get; set; } = false; 
+        public bool HasWarning => false;
 
         public async Task ExecuteAsync()
         {
-            Console.WriteLine($"Executing: {Name}...");
+            ConsoleHelper.Info($"{Name}...");
             await Task.Delay(1000);
-            Console.WriteLine($"[Success] {Name} completed.");
+            ConsoleHelper.Success($"{Name} completed.");
         }
 
         public async Task RevertAsync()
         {
-            Console.WriteLine($"Reverting: {Name}...");
+            ConsoleHelper.Info($"{Name}...");
             await Task.Delay(1000);
-            Console.WriteLine($"[Success] {Name} reverted.");
+            ConsoleHelper.Success($"{Name} reverted.");
         }
     }
 }

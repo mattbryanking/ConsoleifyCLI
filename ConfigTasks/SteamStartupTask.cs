@@ -10,6 +10,7 @@ namespace ConsoleifyCLI.ConfigTasks
         public string Name => "Set Steam to launch on startup in Big Picture";
         public string Category => "Configuration";
         public bool IsSelected { get; set; } = false;
+        public bool HasWarning => false;
 
         public Task ExecuteAsync()
         {
@@ -61,6 +62,10 @@ namespace ConsoleifyCLI.ConfigTasks
                         string runCommand = $"\"{steamPath}\" -silent -bigpicture";
                         key.SetValue("Steam", runCommand);
                         ConsoleHelper.Success("Steam successfully set to Big Picture on startup!");
+                    }
+                    else
+                    {
+                        ConsoleHelper.Error("Failed to open registry key for writing. Steam startup configuration not applied.");
                     }
                 }
             }

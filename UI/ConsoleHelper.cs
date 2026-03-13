@@ -4,30 +4,34 @@
     {
         public static void Clear()
         {
+            Console.ResetColor();
             Console.Clear();
         }
-        public static void WriteLine()
+        
+        public static void Write(string message = "", ConsoleColor color = ConsoleColor.Black)
         {
+            if (color != ConsoleColor.Black)
+            {
+                Console.ForegroundColor = color;
+            }
+            Console.Write(message);
             Console.ResetColor();
-            Console.WriteLine();
         }
 
-        public static void WriteLine(string message)
+        public static void WriteLine(string message = "", ConsoleColor color = ConsoleColor.Black)
         {
+            if (color != ConsoleColor.Black)
+            {
+                Console.ForegroundColor = color;
+            }
+            Console.WriteLine(message);
             Console.ResetColor();
-            Console.WriteLine(message);
-        }
-
-        public static void WriteLine(string message, ConsoleColor color)
-        {
-            Console.ForegroundColor = color;
-            Console.WriteLine(message);
         }
 
         public static void Info(string message)
         {
-            Console.ResetColor();
             Console.WriteLine($"    [~] {message}");
+            Console.ResetColor();
         }
 
         public static void Success(string message)
@@ -50,7 +54,7 @@
             Console.WriteLine($"    [X] ERROR: {message}");
             Console.ResetColor();
         }
-        
+
         public static string Prompt(string question)
         {
             Console.ForegroundColor = ConsoleColor.Cyan;
