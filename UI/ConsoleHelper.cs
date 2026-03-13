@@ -1,4 +1,4 @@
-﻿namespace ConsolifyCLI.UI
+﻿namespace ConsoleifyCLI.UI
 {
     public static class ConsoleHelper
     {

@@ -1,8 +1,8 @@
-﻿using ConsolifyCLI.Core;
-using ConsolifyCLI.UI;
+﻿using ConsoleifyCLI.Core;
+using ConsoleifyCLI.UI;
 using Microsoft.Win32;
 
-namespace ConsolifyCLI.ConfigTasks
+namespace ConsoleifyCLI.ConfigTasks
 {
     public class SteamStartupTask : IInstallOption
     {

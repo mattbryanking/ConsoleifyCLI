@@ -1,8 +1,8 @@
-﻿using ConsolifyCLI.ConfigTasks;
-using ConsolifyCLI.Core;
-using ConsolifyCLI.UI;
+﻿using ConsoleifyCLI.Core;
+using ConsoleifyCLI.UI;
+using ConsoleifyCLI.ConfigTasks;
 
-namespace ConsolifyCLI
+namespace ConsoleifyCLI
 {
     class Program
     {
@@ -35,11 +35,13 @@ namespace ConsolifyCLI
                     if (installer.IsUninstallMode)
                     {
                         ConsoleHelper.Info($"Reverting: {option.Name}...");
+                        await Task.Delay(new Random().Next(500, 1000)); // make this seem more impressive by taking longer B)
                         await option.RevertAsync();
                     }
                     else
                     {
                         ConsoleHelper.Info($"Configuring: {option.Name}...");
+                        await Task.Delay(new Random().Next(500, 1000)); // make this seem more impressive by taking longer B)
                         await option.ExecuteAsync();
                     }
                 }

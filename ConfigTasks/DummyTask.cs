@@ -1,6 +1,6 @@
-﻿using ConsolifyCLI.Core;
+﻿using ConsoleifyCLI.Core;
 
-namespace ConsolifyCLI.ConfigTasks
+namespace ConsoleifyCLI.ConfigTasks
 {
     // just for testing purposes, will nuke this class later :)
     public class DummyTask : IInstallOption

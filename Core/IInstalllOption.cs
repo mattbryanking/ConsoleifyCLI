@@ -1,4 +1,4 @@
-﻿namespace ConsolifyCLI.Core
+﻿namespace ConsoleifyCLI.Core
 {
     public interface IInstallOption
     {
