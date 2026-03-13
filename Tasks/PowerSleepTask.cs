@@ -6,7 +6,6 @@ namespace ConsoleifyCLI.Tasks
 {
     public class PowerSleepTask : IInstallOption
     {
-        public int Id => 4;
         public string Name => "Set physical PC power button to sleep";
         public string Category => "Configuration";
 

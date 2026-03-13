@@ -7,7 +7,6 @@ namespace ConsoleifyCLI.Tasks
 {
     public class BlackDesktopTask : IInstallOption
     {
-        public int Id => 3;
         public string Name => "Set desktop background to black";
         public string Category => "Configuration";
         public bool IsSelected { get; set; } = false;

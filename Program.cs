@@ -2,7 +2,6 @@
 using ConsoleifyCLI.Tasks;
 using ConsoleifyCLI.UI;
 using ConsoleifyCLI.Utilities;
-using System.Diagnostics;
 
 namespace ConsoleifyCLI
 {
@@ -18,7 +17,8 @@ namespace ConsoleifyCLI
                 new AutoHideTaskbarTask(),
                 new BlackDesktopTask(),
                 new PowerSleepTask(),
-                new AutoLogonTask()
+                new AutoLogonTask(),
+                new DesktopIconUtility(),
             };
 
             var installer = new InstallerUI(availableOptions);

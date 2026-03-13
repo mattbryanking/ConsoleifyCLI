@@ -7,7 +7,6 @@ namespace ConsoleifyCLI.Tasks
 {
     public class AutoHideTaskbarTask : IInstallOption
     {
-        public int Id => 2;
         public string Name => "Set taskbar to auto-hide";
         public string Category => "Configuration";
         public bool IsSelected { get; set; } = false;

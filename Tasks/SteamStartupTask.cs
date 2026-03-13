@@ -6,7 +6,6 @@ namespace ConsoleifyCLI.Tasks
 {
     public class SteamStartupTask : IInstallOption
     {
-        public int Id => 1;
         public string Name => "Set Steam to launch on startup in Big Picture";
         public string Category => "Configuration";
         public bool IsSelected { get; set; } = false;

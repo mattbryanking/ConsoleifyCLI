@@ -3,11 +3,10 @@ using System.IO.Compression;
 using ConsoleifyCLI.Core;
 using ConsoleifyCLI.UI;
 
-namespace ConsoleifyCLI.Utilities
+namespace ConsoleifyCLI.Tasks
 {
     public class AutoLogonTask : IInstallOption
     {
-        public int Id => 5;
         public string Name => "Auto log-on to Windows (Sysinternals)";
         public string Category => "Utilities";
 

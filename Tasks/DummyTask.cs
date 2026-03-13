@@ -6,7 +6,6 @@ namespace ConsoleifyCLI.Tasks
     // just for testing purposes, will nuke this class later :)
     public class DummyTask : IInstallOption
     {
-        public int Id => 0;
         public string Name => "Test Option!";
         public string Category => "Configuration";
         public bool IsSelected { get; set; } = false; 

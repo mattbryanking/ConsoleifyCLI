@@ -51,6 +51,8 @@ namespace ConsoleifyCLI.UI
                 for (int i = 0; i < _options.Count; i++)
                 {
                     var option = _options[i];
+                    int displayId = i + 1;
+
                     if (i == 0 || option.Category != _options[i - 1].Category)
                     {
                         string header = $"{option.Category.ToUpper()}:";
@@ -65,30 +67,30 @@ namespace ConsoleifyCLI.UI
                     {
                         option.IsSelected = false;
                         checkmark = "[ ]";
-                        ConsoleHelper.WriteLine($"{option.Id}. {checkmark} {option.Name}", ConsoleColor.DarkGray);
+                        ConsoleHelper.WriteLine($"{displayId}. {checkmark} {option.Name}", ConsoleColor.DarkGray);
                     }
                     else if (option.IsSelected)
                     {
                         if (option.HasWarning)
                         {
-                            ConsoleHelper.Write($"{option.Id}. {checkmark} {option.Name}", ModeColor);
+                            ConsoleHelper.Write($"{displayId}. {checkmark} {option.Name}", ModeColor);
                             ConsoleHelper.WriteLine(" [USE AT OWN RISK!]", ConsoleColor.DarkYellow);
                         }
                         else
                         {
-                            ConsoleHelper.WriteLine($"{option.Id}. {checkmark} {option.Name}", ModeColor);
+                            ConsoleHelper.WriteLine($"{displayId}. {checkmark} {option.Name}", ModeColor);
                         }
                     }
                     else
                     {
                         if (option.HasWarning)
                         {
-                            ConsoleHelper.Write($"{option.Id}. {checkmark} {option.Name}");
+                            ConsoleHelper.Write($"{displayId}. {checkmark} {option.Name}");
                             ConsoleHelper.WriteLine(" [USE AT OWN RISK!]", ConsoleColor.DarkYellow);
                         }
                         else
                         {
-                            ConsoleHelper.WriteLine($"{option.Id}. {checkmark} {option.Name}");
+                            ConsoleHelper.WriteLine($"{displayId}. {checkmark} {option.Name}");
                         }
                     }
                 }
@@ -117,7 +119,7 @@ namespace ConsoleifyCLI.UI
                 else if (char.IsDigit(keyInfo.KeyChar))
                 {
                     int pressedNumber = int.Parse(keyInfo.KeyChar.ToString());
-                    var selectedOption = _options.FirstOrDefault(o => o.Id == pressedNumber);
+                    var selectedOption = pressedNumber > 0 && pressedNumber <= _options.Count ? _options[pressedNumber - 1] : null;
 
                     if (selectedOption != null && (!IsUninstallMode || selectedOption.IsUninstallSupported))
                     {
