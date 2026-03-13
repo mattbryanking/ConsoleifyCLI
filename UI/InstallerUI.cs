@@ -46,12 +46,7 @@ namespace ConsoleifyCLI.UI
                 ConsoleHelper.WriteLine(modeText.PadLeft(54 + (modeText.Length / 2)), ModeColor);
                 ConsoleHelper.WriteLine();
 
-                ConsoleHelper.WriteLine("Controls:");
-                ConsoleHelper.WriteLine("1-9:   Toggle option on/off");
-                ConsoleHelper.WriteLine("ENTER: Apply selected changes");
-                ConsoleHelper.WriteLine("ESC:   Exit without applying");
-                ConsoleHelper.WriteLine("I:     Switch to INSTALL mode");
-                ConsoleHelper.WriteLine("U:     Switch to UNINSTALL mode");
+                ConsoleHelper.WriteLine("Controls: [1-9] Toggle | [ENTER] Apply | [ESC] Exit | [I] Install Mode | [U] Uninstall Mode");
                 ConsoleHelper.WriteLine();
 
                 foreach (var option in _options)
@@ -62,7 +57,7 @@ namespace ConsoleifyCLI.UI
                     {
                         option.IsSelected = false;
                         checkmark = "[ ]";
-                        ConsoleHelper.WriteLine($"{option.Id}. {checkmark} {option.Name} [Not Yet Implemented]", ConsoleColor.DarkGray);
+                        ConsoleHelper.WriteLine($"{option.Id}. {checkmark} {option.Name} [Not Implemented]", ConsoleColor.DarkGray);
                     }
                     else if (option.IsSelected)
                     {

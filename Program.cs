@@ -1,6 +1,8 @@
 ﻿using ConsoleifyCLI.Core;
 using ConsoleifyCLI.UI;
 using ConsoleifyCLI.ConfigTasks;
+using System.Diagnostics;
+using System.Security.Principal;
 
 namespace ConsoleifyCLI
 {
@@ -14,6 +16,7 @@ namespace ConsoleifyCLI
                 new SteamStartupTask(),
                 new AutoHideTaskbarTask(),
                 new BlackDesktopTask(),
+                new PowerSleepTask(),
             };
 
             var installer = new InstallerUI(availableOptions);
