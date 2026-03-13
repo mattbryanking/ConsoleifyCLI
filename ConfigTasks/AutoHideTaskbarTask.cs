@@ -12,6 +12,7 @@ namespace ConsoleifyCLI.ConfigTasks
         public string Category => "Configuration";
         public bool IsSelected { get; set; } = false;
         public bool HasWarning => true;
+        public bool IsRevertSupported => true;
 
         // windows taskbar settings binary blob
         private const string RegistryPath = @"Software\Microsoft\Windows\CurrentVersion\Explorer\StuckRects3";
@@ -39,35 +40,29 @@ namespace ConsoleifyCLI.ConfigTasks
         // this is a scary ass method! working on Windows 11 Home OS Build 26200.7840
         private bool UpdateTaskbarRegistry(bool autoHide)
         {
-            try
+            using (RegistryKey? key = Registry.CurrentUser.OpenSubKey(RegistryPath, true))
             {
-                using (RegistryKey? key = Registry.CurrentUser.OpenSubKey(RegistryPath, true))
+                if (key != null)
                 {
-                    if (key != null)
+                    byte[]? settings = (byte[]?)key.GetValue("Settings");
+
+                    // taskbar settings blob (StuckRect3) is usually 48 bytes
+                    if (settings != null && settings.Length >= 9)
                     {
-                        byte[]? settings = (byte[]?)key.GetValue("Settings");
+                        // we want index 8 for the autohide flag
+                        settings[8] = (byte)(autoHide ? 0x03 : 0x02);
 
-                        // taskbar settings blob (StuckRect3) is usually 48 bytes
-                        if (settings != null && settings.Length >= 9)
-                        {
-                            // we want index 8 for the autohide flag
-                            settings[8] = (byte)(autoHide ? 0x03 : 0x02);
-
-                            key.SetValue("Settings", settings, RegistryValueKind.Binary);
-                            return true;
-                        }
-                        else
-                        {
-                            ConsoleHelper.Error("Taskbar settings blob is missing or a non-standard size. Aborting.");
-                            return false;
-                        }
+                        key.SetValue("Settings", settings, RegistryValueKind.Binary);
+                        return true;
+                    }
+                    else
+                    {
+                        ConsoleHelper.Error("Taskbar settings blob is missing or a non-standard size. Aborting.");
+                        return false;
                     }
                 }
             }
-            catch (Exception ex)
-            {
-                ConsoleHelper.Error($"Taskbar registry error: {ex.Message}");
-            }
+            ConsoleHelper.Error("Failed to open registry key for taskbar settings. Aborting.");
             return false;
         }
 
@@ -75,19 +70,11 @@ namespace ConsoleifyCLI.ConfigTasks
         {
             ConsoleHelper.Warning("Restarting Windows Explorer (your screen will flash black for a moment)...");
 
-            try
+            var explorerProcesses = Process.GetProcessesByName("explorer");
+            foreach (var process in explorerProcesses)
             {
-                var explorerProcesses = Process.GetProcessesByName("explorer");
-                foreach (var process in explorerProcesses)
-                {
-                    process.Kill();
-                    process.WaitForExit(5000); // Wait up to 5 seconds for it to die gracefully
-                }
-                // Windows automatically restarts explorer.exe once it is killed.
-            }
-            catch (Exception ex)
-            {
-                ConsoleHelper.Error($"Failed to restart Explorer: {ex.Message}");
+                process.Kill();
+                process.WaitForExit(5000); 
             }
         }
     }

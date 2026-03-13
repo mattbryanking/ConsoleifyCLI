@@ -11,6 +11,7 @@ namespace ConsoleifyCLI.ConfigTasks
         public string Category => "Configuration";
         public bool IsSelected { get; set; } = false;
         public bool HasWarning => false;
+        public bool IsRevertSupported => true;
 
         public Task ExecuteAsync()
         {
@@ -31,7 +32,9 @@ namespace ConsoleifyCLI.ConfigTasks
                     }
                 }
             }
-            catch { }
+            catch {
+                // don't throw this yet, we have more to try!!
+            }
 
             // try default path next
             if (string.IsNullOrWhiteSpace(steamPath) || !File.Exists(steamPath)) {
@@ -53,25 +56,18 @@ namespace ConsoleifyCLI.ConfigTasks
                 return Task.CompletedTask;
             }
 
-            try
+            using (RegistryKey? key = Registry.CurrentUser.OpenSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Run", true))
             {
-                using (RegistryKey? key = Registry.CurrentUser.OpenSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Run", true))
+                if (key != null)
                 {
-                    if (key != null)
-                    {
-                        string runCommand = $"\"{steamPath}\" -silent -bigpicture";
-                        key.SetValue("Steam", runCommand);
-                        ConsoleHelper.Success("Steam successfully set to Big Picture on startup!");
-                    }
-                    else
-                    {
-                        ConsoleHelper.Error("Failed to open registry key for writing. Steam startup configuration not applied.");
-                    }
+                    string runCommand = $"\"{steamPath}\" -silent -bigpicture";
+                    key.SetValue("Steam", runCommand);
+                    ConsoleHelper.Success("Steam successfully set to Big Picture on startup!");
                 }
-            }
-            catch (Exception ex)
-            {
-                ConsoleHelper.Error($"Failed to set registry key: {ex.Message}");
+                else
+                {
+                    ConsoleHelper.Error("Failed to open registry key for writing. Steam startup configuration not applied.");
+                }
             }
 
             return Task.CompletedTask;

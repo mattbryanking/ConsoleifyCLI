@@ -13,6 +13,7 @@ namespace ConsoleifyCLI
                 new DummyTask(),
                 new SteamStartupTask(),
                 new AutoHideTaskbarTask(),
+                new BlackDesktopTask(),
             };
 
             var installer = new InstallerUI(availableOptions);
@@ -33,7 +34,7 @@ namespace ConsoleifyCLI
             {
                 try
                 {
-                    if (installer.IsUninstallMode)
+                    if (installer.IsRevertMode)
                     {
                         ConsoleHelper.Info($"Reverting: {option.Name}...");
                         await option.RevertAsync();
@@ -52,7 +53,7 @@ namespace ConsoleifyCLI
                 ConsoleHelper.WriteLine();
             }
 
-            ConsoleHelper.WriteLine("\nAll selected tasks finished. Press any key to exit.");
+            ConsoleHelper.WriteLine("All selected tasks finished. Press any key to exit.");
             Console.ReadKey();
         }
     }

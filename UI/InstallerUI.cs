@@ -22,9 +22,9 @@ namespace ConsoleifyCLI.UI
 
         private readonly List<IInstallOption> _options;
 
-        public bool IsUninstallMode { get; private set; } = false;
+        public bool IsRevertMode { get; private set; } = false;
 
-        public ConsoleColor ModeColor => IsUninstallMode ? ConsoleColor.Red : ConsoleColor.Green;
+        public ConsoleColor ModeColor => IsRevertMode ? ConsoleColor.Red : ConsoleColor.Green;
 
         public InstallerUI(List<IInstallOption> options)
         {
@@ -42,7 +42,7 @@ namespace ConsoleifyCLI.UI
                 ConsoleHelper.WriteLine(Description, ModeColor);
 
                 ConsoleHelper.WriteLine();
-                string modeText = IsUninstallMode ? "[ CURRENT MODE: UNINSTALL ]" : "[ CURRENT MODE: INSTALL ]";
+                string modeText = IsRevertMode ? "[ CURRENT MODE: UNINSTALL ]" : "[ CURRENT MODE: INSTALL ]";
                 ConsoleHelper.WriteLine(modeText.PadLeft(54 + (modeText.Length / 2)), ModeColor);
                 ConsoleHelper.WriteLine();
 
@@ -58,7 +58,13 @@ namespace ConsoleifyCLI.UI
                 {
                     string checkmark = option.IsSelected ? "[X]" : "[ ]";
 
-                    if (option.IsSelected)
+                    if (IsRevertMode && !option.IsRevertSupported)
+                    {
+                        option.IsSelected = false;
+                        checkmark = "[ ]";
+                        ConsoleHelper.WriteLine($"{option.Id}. {checkmark} {option.Name} [Not Yet Implemented]", ConsoleColor.DarkGray);
+                    }
+                    else if (option.IsSelected)
                     {
                         if (option.HasWarning)
                         {
@@ -89,11 +95,11 @@ namespace ConsoleifyCLI.UI
 
                 if (upperKey == 'I')
                 {
-                    IsUninstallMode = false;
+                    IsRevertMode = false;
                 }
                 else if (upperKey == 'U')
                 {
-                    IsUninstallMode = true;
+                    IsRevertMode = true;
                 }
                 else if (keyInfo.Key == ConsoleKey.Escape)
                 {
@@ -109,7 +115,7 @@ namespace ConsoleifyCLI.UI
                     int pressedNumber = int.Parse(keyInfo.KeyChar.ToString());
                     var selectedOption = _options.FirstOrDefault(o => o.Id == pressedNumber);
 
-                    if (selectedOption != null)
+                    if (selectedOption != null && (!IsRevertMode || selectedOption.IsRevertSupported))
                     {
                         selectedOption.IsSelected = !selectedOption.IsSelected;
                     }

@@ -11,6 +11,7 @@ namespace ConsoleifyCLI.ConfigTasks
         public string Category => "Configuration";
         public bool IsSelected { get; set; } = false; 
         public bool HasWarning => false;
+        public bool IsRevertSupported => true;
 
         public async Task ExecuteAsync()
         {
