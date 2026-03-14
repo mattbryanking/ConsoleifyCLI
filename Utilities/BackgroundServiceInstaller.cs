@@ -47,7 +47,12 @@ namespace ConsoleifyCLI.Utilities
             ConsoleHelper.Info($"Stopping {exeName}...");
             string processName = Path.GetFileNameWithoutExtension(exeName);
             var processes = Process.GetProcessesByName(processName);
-            foreach (var p in processes) p.Kill();
+            foreach (var p in processes)
+            {
+                p.Kill();
+                p.WaitForExit(3000);
+                p.Dispose(); 
+            }
 
             // remove from startup
             ConsoleHelper.Info("Removing from startup registry...");

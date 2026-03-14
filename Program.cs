@@ -13,6 +13,7 @@ namespace ConsoleifyCLI
             Console.CursorVisible = false;
             var availableOptions = new List<IInstallOption>
             {
+                new ChrisWinUtilTask(),
                 new SteamStartupTask(),
                 new AutoHideTaskbarTask(),
                 new BlackDesktopTask(),

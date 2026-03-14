@@ -13,7 +13,7 @@ namespace ConsoleifyCLI.Utilities
         public bool IsInstallSupported => true;
         public bool IsUninstallSupported => true;
 
-        private readonly string _downloadUrl = "https://github.com/YourUser/YourRepo/raw/main/Consoleify.DesktopCleaner.exe";
+        private readonly string _downloadUrl = "https://github.com/mattbryanking/Consoleify.DesktopCleaner/releases/latest/download/Consoleify.DesktopCleaner.exe";
         private readonly string _exeName = "Consoleify.DesktopCleaner.exe";
         private readonly string _registryName = "ConsoleifyDesktopCleaner";
 
