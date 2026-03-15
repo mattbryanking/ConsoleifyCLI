@@ -20,6 +20,7 @@ namespace ConsoleifyCLI
                 new PowerSleepTask(),
                 new AutoLogonTask(),
                 new DesktopIconUtility(),
+                new NetworkCECUtility(),
             };
 
             var installer = new InstallerUI(availableOptions);

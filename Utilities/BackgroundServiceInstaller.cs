@@ -9,7 +9,7 @@ namespace ConsoleifyCLI.Utilities
         private static readonly string _installDir = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Consoleify");
         private const string RunRegistryPath = @"Software\Microsoft\Windows\CurrentVersion\Run";
 
-        public static async Task InstallAsync(string downloadUrl, string exeName, string registryName)
+        public static async Task InstallAsync(string downloadUrl, string exeName, string registryName, bool launchSilent = false)
         {
             string fullPath = Path.Combine(_installDir, exeName);
             if (!Directory.Exists(_installDir)) Directory.CreateDirectory(_installDir);
@@ -31,7 +31,7 @@ namespace ConsoleifyCLI.Utilities
             ConsoleHelper.Info("Registering service for automatic startup...");
             using (RegistryKey? key = Registry.CurrentUser.OpenSubKey(RunRegistryPath, true))
             {
-                key?.SetValue(registryName, $"\"{fullPath}\"");
+                key?.SetValue(registryName, launchSilent ? $"\"{fullPath}\" --silent" : $"\"{fullPath}\"");
             }
 
             // punch it!
@@ -58,7 +58,7 @@ namespace ConsoleifyCLI.Utilities
             ConsoleHelper.Info("Removing from startup registry...");
             using (RegistryKey? key = Registry.CurrentUser.OpenSubKey(RunRegistryPath, true))
             {
-                key?.DeleteValue(registryName, false);
+                key?.DeleteValue(registryName, true);
             }
 
             // die!!!!!!
