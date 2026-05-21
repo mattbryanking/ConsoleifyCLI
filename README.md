@@ -18,7 +18,7 @@ ConsoleifyCLI is a Windows configuration utility that transforms a standard PC i
 * **Power Management:** Re-maps the PC power button to Sleep mode, replicating the standby-and-resume behavior of modern consoles using only a controller.
 
 ### Minimalist Visuals
-* **Desktop Icon Remover:** A background service monitors the desktop and instantly deletes shortcuts or installer icons to ensure seamless visual transitions between the BIOS and Steam.
+* **Desktop Icon Remover:** Disables desktop shortcuts and installer icons to ensure seamless visual transitions between the BIOS and Steam.
 * **Taskbar Suppression:** Forces the Windows taskbar into auto-hide mode to remove UI distractions.
 
 ### Hardware Orchestration
