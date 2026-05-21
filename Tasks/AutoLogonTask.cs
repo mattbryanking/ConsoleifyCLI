@@ -54,7 +54,7 @@ namespace ConsoleifyCLI.Tasks
             }
 
             ConsoleHelper.Info("Downloading Sysinternals tool from Microsoft...");
-            using var client = new HttpClient();
+            using var client = new HttpClient { Timeout = TimeSpan.FromMinutes(2) };
             var data = await client.GetByteArrayAsync(_zipUrl);
             await File.WriteAllBytesAsync(zipPath, data);
 
@@ -62,8 +62,9 @@ namespace ConsoleifyCLI.Tasks
             using (ZipArchive archive = ZipFile.OpenRead(zipPath))
             {
                 // i hope you're not gaming on 32 bit!
-                var entry = archive.GetEntry("Autologon64.exe");
-                entry?.ExtractToFile(exePath, true);
+                var entry = archive.GetEntry("Autologon64.exe")
+                    ?? throw new InvalidOperationException("Autologon64.exe not found in the downloaded zip. The archive format may have changed.");
+                entry.ExtractToFile(exePath, true);
             }
 
             return exePath;

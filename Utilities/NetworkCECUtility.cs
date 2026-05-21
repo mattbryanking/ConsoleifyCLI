@@ -10,7 +10,6 @@ namespace ConsoleifyCLI.Utilities
 
         public bool IsSelected { get; set; } = false;
         public bool HasWarning => false;
-        public bool IsInstallSupported => true;
         public bool IsUninstallSupported => true;
 
         private readonly string _downloadUrl = "https://github.com/mattbryanking/Consoleify.GoogleTVNetworkCEC/releases/latest/download/Consoleify.GoogleTVNetworkCEC.exe";

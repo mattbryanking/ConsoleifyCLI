@@ -18,7 +18,7 @@ namespace ConsoleifyCLI.Utilities
             if (!File.Exists(fullPath))
             {
                 ConsoleHelper.Info($"Downloading {exeName}...");
-                using var client = new HttpClient();
+                using var client = new HttpClient { Timeout = TimeSpan.FromMinutes(2) };
                 var data = await client.GetByteArrayAsync(downloadUrl);
                 await File.WriteAllBytesAsync(fullPath, data);
             }
@@ -58,7 +58,7 @@ namespace ConsoleifyCLI.Utilities
             ConsoleHelper.Info("Removing from startup registry...");
             using (RegistryKey? key = Registry.CurrentUser.OpenSubKey(RunRegistryPath, true))
             {
-                key?.DeleteValue(registryName, true);
+                key?.DeleteValue(registryName, false);
             }
 
             // die!!!!!!

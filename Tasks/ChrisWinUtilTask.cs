@@ -10,7 +10,7 @@ namespace ConsoleifyCLI.Tasks
         public string Category => "Configuration";
 
         public bool IsSelected { get; set; } = false;
-        public bool HasWarning => false;
+        public bool HasWarning => true;
         public bool IsUninstallSupported => true;
 
         public Task ExecuteAsync()

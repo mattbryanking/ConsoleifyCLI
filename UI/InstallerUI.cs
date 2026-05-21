@@ -55,7 +55,6 @@ namespace ConsoleifyCLI.UI
 
                     if (i == 0 || option.Category != _options[i - 1].Category)
                     {
-                        string header = $"{option.Category.ToUpper()}:";
                         ConsoleHelper.WriteLine();
                         ConsoleHelper.WriteLine($"{option.Category.ToUpper()}:", ConsoleColor.Yellow);
                         ConsoleHelper.WriteLine();

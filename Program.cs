@@ -18,8 +18,8 @@ namespace ConsoleifyCLI
                 new AutoHideTaskbarTask(),
                 new BlackDesktopTask(),
                 new PowerSleepTask(),
+                new HideDesktopIconsTask(),
                 new AutoLogonTask(),
-                new DesktopIconUtility(),
                 new NetworkCECUtility(),
             };
 
@@ -27,7 +27,7 @@ namespace ConsoleifyCLI
             installer.ShowMenu();
 
             ConsoleHelper.Clear();
-            ConsoleHelper.WriteLine("Starting Consolify Process...\n");
+            ConsoleHelper.WriteLine("Starting Consoleify Process...\n");
 
             var selectedOptions = availableOptions.Where(o => o.IsSelected).ToList();
 
